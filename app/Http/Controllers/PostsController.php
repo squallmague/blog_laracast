@@ -13,15 +13,17 @@ class PostsController extends Controller
 
     {
 
-    	return view('posts.index');
+        $posts = Post::latest()->get();
+
+    	return view('posts.index', compact('posts'));
 
     }
 
-    public function show()
+    public function show(Post $post)
 
     {
 
-    	return view('posts.show');
+    	return view('posts.show', compact('post'));
     	
     }
 
@@ -37,28 +39,15 @@ class PostsController extends Controller
 
     {
 
-    	//dd(request(['title', 'body']));
+        $this->validate(request(), [
 
-    	// Create a new post using the request data
+            'title' => 'required',
 
-    	//$post = new Post;
+            'body' =>'required'
 
-    	// $post->title = request('title');
+        ]);
 
-    	// $post->body = request('body');
-
-    	// // Save it to the database
-
-    	// $post->save();
-
-    	Post::create([
-
-    		'title' => request('title'),
-
-    		'body' => request('body')
-    	]);
-
-    	// An then redirect to the home page.
+    	Post::create(request(['title', 'body']));
 
 
     	return redirect('/');
