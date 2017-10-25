@@ -8,7 +8,13 @@ use App\Post;
 
 class PostsController extends Controller
 {
-    
+
+    public function __construct()
+    {
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+
+
     public function index()
 
     {
@@ -47,7 +53,11 @@ class PostsController extends Controller
 
         ]);
 
-    	Post::create(request(['title', 'body']));
+        auth()->user()->publish(
+
+            new Post(request(['title', 'body']))
+
+        );
 
 
     	return redirect('/');

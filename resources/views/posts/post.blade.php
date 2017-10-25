@@ -12,6 +12,8 @@
 
 	<p class="blogpost-meta">
 
+		{{ $post->user->name }} on
+
 		{{ $post->created_at->toFormattedDateString() }}
 
 	</p>
